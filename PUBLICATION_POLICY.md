@@ -6,6 +6,9 @@ This repository is generated using a fail-closed publication policy.
 
 - A person only when the Family Historian master contains explicit death
   evidence.
+- Graham Freebody as a named exception because he is the original author and
+  publisher of the site. His public profile is limited to his name, birth year,
+  occupation and relationships to otherwise eligible people.
 - Structured birth, christening, occupation and death facts for an eligible
   person.
 - Relationships only among people who are independently eligible for the
@@ -15,7 +18,7 @@ This repository is generated using a fail-closed publication policy.
 
 ## Withheld automatically
 
-- Living people and people whose living/deceased status is uncertain.
+- Other living people and people whose living/deceased status is uncertain.
 - All free-text genealogy notes.
 - Raw GEDCOM data, internal identifiers, source hashes and computer paths.
 - Email addresses, contact details and guestbook content.

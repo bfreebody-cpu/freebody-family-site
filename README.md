@@ -10,13 +10,14 @@ accounts, forms, advertising, analytics, cookies or third-party scripts.
 
 ## What this first edition contains
 
-- 227 historical people with explicit death evidence in the master record
+- 227 historical people with explicit death evidence, plus Graham Freebody as
+  the explicitly approved original author
 - 99 family groups containing only people independently eligible for release
 - Graham Freebody's original introduction to the work
 - One previously approved historical portrait
 - Local browser search over the public records
 
-It does **not** contain the GEDCOM, living or uncertain people, free-text
+Apart from Graham's deliberately minimized profile, it does **not** contain the GEDCOM, living or uncertain people, free-text
 genealogy notes, raw source records, private identifiers, guestbook content or
 the unreviewed photograph collection. See
 [`PUBLICATION_POLICY.md`](PUBLICATION_POLICY.md) for the complete boundary.

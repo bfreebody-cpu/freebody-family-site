@@ -1,9 +1,9 @@
 {
   "format_version": 1,
-  "mode": "public-deceased-only",
+  "mode": "public-reviewed-family",
   "eligibility": "explicit_death_evidence",
   "counts": {
-    "people": 227,
+    "people": 228,
     "families": 99,
     "approved_assets": 1
   },
@@ -129,6 +129,7 @@
     "p-89edeab4d2",
     "p-8ac1539d0c",
     "p-8d2cdd5786",
+    "p-8f3216338c",
     "p-900e08e803",
     "p-9023fd6b82",
     "p-9067032d09",
@@ -237,5 +238,8 @@
     "p-fcfbcb8b4c"
   ],
   "notes_published": false,
-  "photograph_collection_published": false
+  "photograph_collection_published": false,
+  "approved_living_people": [
+    "p-8f3216338c"
+  ]
 }

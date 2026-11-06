@@ -99,13 +99,48 @@ function collectVisible() {
   return { generationMap, visibleFamilies };
 }
 
-function layoutPeople(generationMap) {
+function keepPartnersTogether(row, visibleFamilies) {
+  const rowSet = new Set(row);
+  const parent = new Map(row.map((id) => [id, id]));
+  function find(id) {
+    let root = id;
+    while (parent.get(root) !== root) root = parent.get(root);
+    let current = id;
+    while (parent.get(current) !== current) {
+      const next = parent.get(current);
+      parent.set(current, root);
+      current = next;
+    }
+    return root;
+  }
+  function union(first, second) {
+    const firstRoot = find(first);
+    const secondRoot = find(second);
+    if (firstRoot !== secondRoot) parent.set(secondRoot, firstRoot);
+  }
+  visibleFamilies.forEach((family) => {
+    const partners = family.partners.filter((id) => rowSet.has(id));
+    partners.slice(1).forEach((id) => union(partners[0], id));
+  });
+  const components = new Map();
+  row.forEach((id, index) => {
+    const root = find(id);
+    if (!components.has(root)) components.set(root, { firstIndex: index, people: [] });
+    components.get(root).people.push(id);
+  });
+  return [...components.values()]
+    .sort((a, b) => a.firstIndex - b.firstIndex)
+    .flatMap((component) => component.people);
+}
+
+function layoutPeople(generationMap, visibleFamilies) {
   const rows = new Map();
   generationMap.forEach((generation, id) => {
     if (!rows.has(generation)) rows.set(generation, []);
     rows.get(generation).push(id);
   });
   const orderedGenerations = [...rows.keys()].sort((a, b) => a - b);
+  rows.forEach((row, generation) => rows.set(generation, keepPartnersTogether(row, visibleFamilies)));
   const maxInRow = Math.max(...[...rows.values()].map((row) => row.length), 1);
   naturalWidth = Math.max(900, maxInRow * (NODE_WIDTH + COLUMN_GAP) - COLUMN_GAP + PADDING * 2);
   naturalHeight = orderedGenerations.length * (NODE_HEIGHT + ROW_GAP) - ROW_GAP + PADDING * 2;
@@ -129,24 +164,38 @@ function drawLine(layer, x1, y1, x2, y2) {
   layer.append(svgElement("line", { x1, y1, x2, y2, class: "tree-connector" }));
 }
 
+function drawJunction(layer, x, y) {
+  layer.append(svgElement("circle", { cx: x, cy: y, r: 3.5, class: "tree-junction" }));
+}
+
 function drawFamilies(layer, visibleFamilies, positions) {
   visibleFamilies.forEach((family) => {
     const partners = family.partners.filter((id) => positions.has(id)).map((id) => positions.get(id));
     const children = family.children.filter((id) => positions.has(id)).map((id) => positions.get(id));
     if (!partners.length) return;
-    const partnerCenters = partners.map((position) => ({ x: position.x + NODE_WIDTH / 2, y: position.y + NODE_HEIGHT / 2 }));
-    const unionX = partnerCenters.reduce((sum, position) => sum + position.x, 0) / partnerCenters.length;
-    const unionY = partnerCenters.reduce((sum, position) => sum + position.y, 0) / partnerCenters.length;
+    const sortedPartners = [...partners].sort((a, b) => a.x - b.x);
+    const partnerCenters = sortedPartners.map((position) => ({ x: position.x + NODE_WIDTH / 2, y: position.y + NODE_HEIGHT / 2 }));
+    let unionX = partnerCenters[0].x;
+    let unionY = sortedPartners[0].y + NODE_HEIGHT;
     if (partnerCenters.length > 1) {
-      drawLine(layer, Math.min(...partnerCenters.map((position) => position.x)), unionY, Math.max(...partnerCenters.map((position) => position.x)), unionY);
+      const leftEdge = sortedPartners[0].x + NODE_WIDTH;
+      const rightEdge = sortedPartners[sortedPartners.length - 1].x;
+      unionX = leftEdge + (rightEdge - leftEdge) / 2;
+      unionY = partnerCenters[0].y;
+      drawLine(layer, leftEdge, unionY, rightEdge, unionY);
+      drawJunction(layer, unionX, unionY);
     }
     if (!children.length) return;
     const childCenters = children.map((position) => ({ x: position.x + NODE_WIDTH / 2, y: position.y }));
     const childTop = Math.min(...childCenters.map((position) => position.y));
     const midpointY = unionY + (childTop - unionY) / 2;
     drawLine(layer, unionX, unionY, unionX, midpointY);
-    if (childCenters.length > 1) {
-      drawLine(layer, Math.min(...childCenters.map((position) => position.x)), midpointY, Math.max(...childCenters.map((position) => position.x)), midpointY);
+    drawJunction(layer, unionX, midpointY);
+    const branchXs = [unionX, ...childCenters.map((position) => position.x)];
+    const branchLeft = Math.min(...branchXs);
+    const branchRight = Math.max(...branchXs);
+    if (branchRight > branchLeft) {
+      drawLine(layer, branchLeft, midpointY, branchRight, midpointY);
     }
     childCenters.forEach((position) => drawLine(layer, position.x, midpointY, position.x, position.y));
   });
@@ -252,7 +301,7 @@ function render() {
   if (!peopleById.size || !focusId) return;
   const person = peopleById.get(focusId);
   const { generationMap, visibleFamilies } = collectVisible();
-  const { positions, rows, orderedGenerations } = layoutPeople(generationMap);
+  const { positions, rows, orderedGenerations } = layoutPeople(generationMap, visibleFamilies);
   svg.replaceChildren();
   svg.setAttribute("viewBox", `0 0 ${naturalWidth} ${naturalHeight}`);
   const title = svgElement("title", { id: "tree-diagram-title" });

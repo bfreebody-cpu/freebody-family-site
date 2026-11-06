@@ -241,5 +241,6 @@
   "photograph_collection_published": false,
   "approved_living_people": [
     "p-8f3216338c"
-  ]
+  ],
+  "tree_default_person_id": "p-8f3216338c"
 }

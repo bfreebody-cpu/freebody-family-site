@@ -37,9 +37,8 @@ fetch("../assets/search-index.json", { credentials: "same-origin" })
     query.disabled = false;
     query.addEventListener("input", render);
     query.focus();
-    summary.textContent = `Ready to search ${people.length} private reconstructed records.`;
+    summary.textContent = `Ready to search ${people.length} public records.`;
   })
   .catch(() => {
-    summary.textContent = "The private search index could not be loaded.";
+    summary.textContent = "The public search index could not be loaded.";
   });
-

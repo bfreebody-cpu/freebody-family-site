@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="en-GB"><head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="index, follow">
+<meta name="description" content="Explore the privacy-filtered Freebody family lineage">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self'; style-src 'self'; script-src 'self'; connect-src 'self'; object-src 'none'; base-uri 'none'; form-action 'none'">
+<title>Family tree · Freebody Family Archive</title>
+<link rel="stylesheet" href="../styles.css">
+</head><body>
+<a class="skip-link" href="#main">Skip to content</a>
+<header class="site-header">
+<a class="wordmark" href="../" aria-label="Freebody Family Archive home"><span class="wordmark-mark" aria-hidden="true">F</span><span>Freebody Family Archive</span></a>
+<nav class="private-nav" aria-label="Main navigation"><a href="../">Home</a><a href="../history/">History</a><a href="../people/">People</a><a href="../families/">Families</a><a aria-current="page" href="../tree/">Tree</a><a href="../search/">Search</a><a href="../about/">About</a></nav>
+</header>
+<main id="main" class="tree-page">
+<header class="tree-heading"><p class="eyebrow">Interactive lineage</p><h1>Follow the family tree.</h1><p class="lede">Begin with Graham, search for another person, or click any card to recentre the view. The diagram shows only the 228 records approved for this public edition.</p></header>
+<section class="tree-controls" aria-label="Tree controls">
+<div class="tree-find"><label for="tree-person">Find a person</label><div><input id="tree-person" list="tree-person-options" autocomplete="off" disabled><datalist id="tree-person-options"></datalist><button id="tree-show-person" type="button" disabled>Show</button></div></div>
+<fieldset><legend>Direction</legend><label><input type="radio" name="tree-mode" value="ancestors"> Ancestors</label><label><input type="radio" name="tree-mode" value="both" checked> Both</label><label><input type="radio" name="tree-mode" value="descendants"> Descendants</label></fieldset>
+<label class="tree-depth" for="tree-generations">Generations <select id="tree-generations"><option value="2">2</option><option value="3" selected>3</option><option value="4">4</option></select></label>
+<div class="tree-zoom" aria-label="Diagram size"><button id="tree-zoom-out" type="button" aria-label="Zoom out">−</button><button id="tree-zoom-reset" type="button">Reset</button><button id="tree-zoom-in" type="button" aria-label="Zoom in">+</button></div>
+</section>
+<section class="tree-focus" aria-live="polite"><div><p class="eyebrow">Current person</p><h2 id="tree-focus-name">Loading family tree…</h2><p id="tree-focus-life"></p></div><a id="tree-record-link" class="button" href="../people/">Open person record</a></section>
+<p id="tree-status" class="tree-status" role="status">Loading the public relationship graph…</p>
+<div id="tree-viewport" class="tree-viewport" tabindex="0" aria-label="Scrollable family-tree diagram"><svg id="family-tree" role="img" aria-labelledby="tree-diagram-title tree-diagram-description"><title id="tree-diagram-title">Freebody family lineage</title><desc id="tree-diagram-description">An interactive diagram of approved public family relationships.</desc></svg></div>
+<div class="tree-legend"><span><i class="legend-focus"></i>Current person</span><span><i class="legend-person"></i>Related person</span><p>Click a person to make them the centre. Lines join public partners and connect them to public children.</p></div>
+<details class="tree-text-view"><summary>Accessible list of people currently shown</summary><div id="tree-visible-list"></div></details>
+<aside class="data-warning">This is a privacy-filtered lineage, not the complete private family tree. Withheld people are not named or represented as placeholders.</aside>
+<script src="../tree.js" defer></script></main>
+<footer><p>Freebody Family Archive</p><p>Preserved from Graham Freebody’s family-history research.</p></footer>
+</body></html>

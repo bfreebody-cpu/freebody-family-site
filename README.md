@@ -15,12 +15,12 @@ accounts, forms, advertising, analytics, cookies or third-party scripts.
 - 99 family groups containing only people independently eligible for release
 - An interactive, Graham-centred lineage tree with ancestor and descendant views
 - Graham Freebody's original introduction to the work
-- One previously approved historical portrait
+- The complete preserved photograph collection: 49 unique files represented by
+  52 original-page image references
 - Local browser search over the public records
 
-Apart from Graham's deliberately minimized profile, it does **not** contain the GEDCOM, living or uncertain people, free-text
-genealogy notes, raw source records, private identifiers, guestbook content or
-the unreviewed photograph collection. See
+Apart from Graham's deliberately minimized profile, it does **not** contain the GEDCOM, living or uncertain person records, free-text
+genealogy notes, raw source records, private identifiers or guestbook content. See
 [`PUBLICATION_POLICY.md`](PUBLICATION_POLICY.md) for the complete boundary.
 
 ## View the website locally

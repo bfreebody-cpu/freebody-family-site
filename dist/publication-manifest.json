@@ -5,7 +5,11 @@
   "counts": {
     "people": 228,
     "families": 99,
-    "approved_assets": 1
+    "approved_assets": 1,
+    "photo_pages": 50,
+    "photo_references": 52,
+    "photo_assets": 49,
+    "people_with_photos": 46
   },
   "published_person_ids": [
     "p-00cf541b35",
@@ -238,7 +242,13 @@
     "p-fcfbcb8b4c"
   ],
   "notes_published": false,
-  "photograph_collection_published": false,
+  "photograph_collection_published": true,
+  "photograph_approval": {
+    "scope": "all_preserved_website_photographs",
+    "approved_by": "Ben Freebody",
+    "approved_on": "2026-11-09",
+    "statement": "All preserved pictures are cleared as usable for the public family website."
+  },
   "approved_living_people": [
     "p-8f3216338c"
   ],

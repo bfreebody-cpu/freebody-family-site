@@ -15,6 +15,10 @@ This repository is generated using a fail-closed publication policy.
   public edition.
 - Graham Freebody's already-public introduction and specifically approved
   public assets.
+- All 49 unique photograph files preserved from the original website. Ben
+  Freebody explicitly cleared the complete collection for public use on
+  9 November 2026. Original page titles are retained as captions; person links
+  are created only for independently eligible public records.
 
 ## Withheld automatically
 
@@ -22,14 +26,12 @@ This repository is generated using a fail-closed publication policy.
 - All free-text genealogy notes.
 - Raw GEDCOM data, internal identifiers, source hashes and computer paths.
 - Email addresses, contact details and guestbook content.
-- The photograph collection except for assets approved individually.
 - Any relationship to a withheld person; withheld people are not shown as
   named or anonymous placeholders.
 
 ## Later additions
 
-Older records without death evidence, narrative notes and photographs require
-an explicit review decision before publication. Approval of a person's record
-does not automatically approve a photograph associated with that person,
-because a photograph may include other living or unidentified people.
+Older records without death evidence and narrative notes require an explicit
+review decision before publication. The preserved photograph collection has
+received a separate collection-wide approval.
 

@@ -13,6 +13,7 @@ accounts, forms, advertising, analytics, cookies or third-party scripts.
 - 227 historical people with explicit death evidence, plus Graham Freebody as
   the explicitly approved original author
 - 99 family groups containing only people independently eligible for release
+- A people directory switchable between first-name and surname order
 - An interactive, Graham-centred lineage tree with ancestor and descendant views
 - Graham Freebody's original introduction to the work
 - The complete preserved photograph collection: 49 unique files represented by

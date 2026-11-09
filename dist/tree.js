@@ -142,8 +142,14 @@ function layoutPeople(generationMap, visibleFamilies) {
   const orderedGenerations = [...rows.keys()].sort((a, b) => a - b);
   rows.forEach((row, generation) => rows.set(generation, keepPartnersTogether(row, visibleFamilies)));
   const maxInRow = Math.max(...[...rows.values()].map((row) => row.length), 1);
-  naturalWidth = Math.max(900, maxInRow * (NODE_WIDTH + COLUMN_GAP) - COLUMN_GAP + PADDING * 2);
-  naturalHeight = orderedGenerations.length * (NODE_HEIGHT + ROW_GAP) - ROW_GAP + PADDING * 2;
+  const viewportWidth = viewport.clientWidth || 900;
+  const viewportHeight = viewport.clientHeight || 520;
+  const horizontalPadding = Math.max(PADDING, viewportWidth / (2 * zoom) - NODE_WIDTH / 2 + 24);
+  const verticalPadding = Math.max(PADDING, viewportHeight / (2 * zoom) - NODE_HEIGHT / 2 + 24);
+  const rowContentWidth = maxInRow * (NODE_WIDTH + COLUMN_GAP) - COLUMN_GAP;
+  const rowContentHeight = orderedGenerations.length * (NODE_HEIGHT + ROW_GAP) - ROW_GAP;
+  naturalWidth = Math.max(viewportWidth / zoom, rowContentWidth + horizontalPadding * 2);
+  naturalHeight = Math.max(viewportHeight / zoom, rowContentHeight + verticalPadding * 2);
   const positions = new Map();
   orderedGenerations.forEach((generation, rowIndex) => {
     const row = rows.get(generation);
@@ -152,7 +158,7 @@ function layoutPeople(generationMap, visibleFamilies) {
     row.forEach((id, columnIndex) => {
       positions.set(id, {
         x: startX + columnIndex * (NODE_WIDTH + COLUMN_GAP),
-        y: PADDING + rowIndex * (NODE_HEIGHT + ROW_GAP),
+        y: verticalPadding + rowIndex * (NODE_HEIGHT + ROW_GAP),
         generation,
       });
     });
@@ -290,11 +296,13 @@ function applyZoom() {
 function centreFocus() {
   const focusNode = svg.querySelector(".tree-node.is-focus");
   if (!focusNode) return;
-  const transform = focusNode.getAttribute("transform").match(/[\d.]+/g).map(Number);
+  const transform = focusNode.getAttribute("transform").match(/[-\d.]+/g).map(Number);
   const centreX = (transform[0] + NODE_WIDTH / 2) * zoom;
   const centreY = (transform[1] + NODE_HEIGHT / 2) * zoom;
-  viewport.scrollLeft = Math.max(0, centreX - viewport.clientWidth / 2);
-  viewport.scrollTop = Math.max(0, centreY - viewport.clientHeight / 2);
+  const maxLeft = Math.max(0, naturalWidth * zoom - viewport.clientWidth);
+  const maxTop = Math.max(0, naturalHeight * zoom - viewport.clientHeight);
+  viewport.scrollLeft = Math.min(maxLeft, Math.max(0, centreX - viewport.clientWidth / 2));
+  viewport.scrollTop = Math.min(maxTop, Math.max(0, centreY - viewport.clientHeight / 2));
 }
 
 function render() {
@@ -325,7 +333,7 @@ function render() {
   url.searchParams.set("generations", generations.value);
   window.history.replaceState({}, "", url);
   applyZoom();
-  window.requestAnimationFrame(centreFocus);
+  window.requestAnimationFrame(() => window.requestAnimationFrame(centreFocus));
 }
 
 function findRequestedPerson() {
@@ -386,6 +394,12 @@ personInput.addEventListener("keydown", (event) => {
 });
 document.querySelectorAll('input[name="tree-mode"]').forEach((control) => control.addEventListener("change", render));
 generations.addEventListener("change", render);
-zoomOut.addEventListener("click", () => { zoom = Math.max(0.6, zoom - 0.15); applyZoom(); centreFocus(); });
-zoomReset.addEventListener("click", () => { zoom = 1; applyZoom(); centreFocus(); });
-zoomIn.addEventListener("click", () => { zoom = Math.min(1.75, zoom + 0.15); applyZoom(); centreFocus(); });
+zoomOut.addEventListener("click", () => { zoom = Math.max(0.6, zoom - 0.15); render(); });
+zoomReset.addEventListener("click", () => { zoom = 1; render(); });
+zoomIn.addEventListener("click", () => { zoom = Math.min(1.75, zoom + 0.15); render(); });
+
+let resizeTimer;
+window.addEventListener("resize", () => {
+  window.clearTimeout(resizeTimer);
+  resizeTimer = window.setTimeout(render, 120);
+});

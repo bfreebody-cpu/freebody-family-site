@@ -160,6 +160,9 @@ footer p { margin: 0; }
 .relation-card h3 { margin: 0 0 .5rem; font-size: 1.1rem; }
 .relation-links { display: flex; flex-wrap: wrap; gap: .4rem .8rem; }
 .relation-links a { color: var(--forest); font-weight: 700; }
+.person-relationship-card { padding: 1.15rem 1.25rem; }
+.relationship-role { margin: .85rem 0 0; }
+.relationship-label { display: block; margin-bottom: .35rem; color: var(--muted); font-size: .72rem; font-weight: 800; letter-spacing: .07em; text-transform: uppercase; }
 .claim { margin: .45rem 0 0; color: var(--muted); font-size: .86rem; }
 .unresolved { margin-top: .7rem; color: #7d2c1d; font-size: .83rem; }
 .record-sidebar { align-self: start; padding: 1.2rem; background: var(--paper-deep); position: sticky; top: 1rem; }

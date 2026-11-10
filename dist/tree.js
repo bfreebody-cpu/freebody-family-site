@@ -31,6 +31,7 @@ let focusId = "";
 let naturalWidth = 900;
 let naturalHeight = 520;
 let zoom = 1;
+let treeScope = "public";
 
 function svgElement(name, attributes = {}) {
   const element = document.createElementNS(SVG_NS, name);
@@ -315,7 +316,9 @@ function render() {
   const title = svgElement("title", { id: "tree-diagram-title" });
   title.textContent = `Family lineage centred on ${person.name}`;
   const description = svgElement("desc", { id: "tree-diagram-description" });
-  description.textContent = `${generationMap.size} approved public people shown. Click any person to recentre the tree.`;
+  description.textContent = treeScope === "private"
+    ? `${generationMap.size} private family records shown. Click any person to recentre the tree.`
+    : `${generationMap.size} approved public people shown. Click any person to recentre the tree.`;
   const connectorLayer = svgElement("g", { class: "tree-connectors", "aria-hidden": "true" });
   const nodeLayer = svgElement("g", { class: "tree-nodes" });
   svg.append(title, description, connectorLayer, nodeLayer);
@@ -324,7 +327,8 @@ function render() {
   focusName.textContent = person.name;
   focusLife.textContent = person.lifespan || "Dates not recorded";
   recordLink.href = `../people/${encodeURIComponent(person.id)}/`;
-  status.textContent = `${generationMap.size} public person record${generationMap.size === 1 ? "" : "s"} shown across ${orderedGenerations.length} generation${orderedGenerations.length === 1 ? "" : "s"}.`;
+  const recordScope = treeScope === "private" ? "private" : "public";
+  status.textContent = `${generationMap.size} ${recordScope} person record${generationMap.size === 1 ? "" : "s"} shown across ${orderedGenerations.length} generation${orderedGenerations.length === 1 ? "" : "s"}.`;
   personInput.value = `${person.name} — ${person.lifespan}`;
   renderAccessibleList(rows, orderedGenerations);
   const url = new URL(window.location.href);
@@ -350,6 +354,7 @@ fetch("../assets/tree-data.json", { credentials: "same-origin" })
     return response.json();
   })
   .then((data) => {
+    treeScope = data.scope === "private" ? "private" : "public";
     peopleById = new Map(data.people.map((person) => [person.id, person]));
     families = data.families;
     families.forEach((family) => {
@@ -377,7 +382,7 @@ fetch("../assets/tree-data.json", { credentials: "same-origin" })
     render();
   })
   .catch(() => {
-    status.textContent = "The public family-tree data could not be loaded.";
+    status.textContent = `The ${treeScope} family-tree data could not be loaded.`;
     focusName.textContent = "Family tree unavailable";
   });
 
